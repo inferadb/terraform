@@ -233,10 +233,7 @@ module "gke_primary" {
 
   release_channel = "REGULAR"
 
-  # Enable Workload Identity
-  workload_identity_enabled = true
-
-  # Enable network policy
+  # Enable network policy (Workload Identity enabled by default via identity_namespace)
   network_policy = true
 
   node_pools = [
@@ -307,9 +304,7 @@ module "gke_dr" {
   ip_range_services = "services"
 
   release_channel = "REGULAR"
-
-  workload_identity_enabled = true
-  network_policy            = true
+  network_policy  = true
 
   node_pools = [
     {

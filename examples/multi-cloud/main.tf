@@ -288,9 +288,8 @@ module "gke" {
   ip_range_pods     = "pods"
   ip_range_services = "services"
 
-  release_channel           = "REGULAR"
-  workload_identity_enabled = true
-  network_policy            = true
+  release_channel = "REGULAR"
+  network_policy  = true
 
   node_pools = [
     {
