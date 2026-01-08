@@ -13,13 +13,11 @@
 
 ## Community
 
-Join us on [Discord](https://discord.gg/inferadb) to discuss InferaDB, get help with your projects, and connect with other developers. Whether you have questions, want to share what you're building, or are interested in contributing, we'd love to have you!
+Join us on [Discord](https://discord.gg/inferadb) to discuss InferaDB, get help, and connect with other developers.
 
 ## License
 
-Licensed under either of:
+Choose either license:
 
 - [Apache License, Version 2.0](LICENSE-APACHE)
 - [MIT License](LICENSE-MIT)
-
-at your option.
