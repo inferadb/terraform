@@ -219,7 +219,7 @@ resource "google_compute_router_nat" "dr" {
 
 module "gke_primary" {
   source  = "terraform-google-modules/kubernetes-engine/google"
-  version = "~> 30.0"
+  version = "~> 35.0"
 
   project_id = var.project_id
   name       = "${var.cluster_name}-primary"
@@ -294,7 +294,7 @@ module "gke_primary" {
 
 module "gke_dr" {
   source  = "terraform-google-modules/kubernetes-engine/google"
-  version = "~> 30.0"
+  version = "~> 35.0"
 
   project_id = var.project_id
   name       = "${var.cluster_name}-dr"

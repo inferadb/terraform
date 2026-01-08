@@ -276,7 +276,7 @@ resource "google_compute_router_nat" "gcp" {
 
 module "gke" {
   source  = "terraform-google-modules/kubernetes-engine/google"
-  version = "~> 30.0"
+  version = "~> 35.0"
 
   project_id = var.gcp_project_id
   name       = "${var.cluster_name}-gcp"
