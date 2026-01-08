@@ -332,9 +332,6 @@ module "eks_dr" {
 module "tailscale_acls" {
   source = "../../modules/tailscale-acls"
 
-  tailnet = var.tailscale_tailnet
-  api_key = var.tailscale_api_key
-
   regions = [
     { id = var.primary_region, name = "Primary (${var.primary_region})" },
     { id = var.dr_region, name = "DR (${var.dr_region})" }
@@ -444,12 +441,6 @@ module "inferadb" {
     enabled  = true
     replicas = var.engine_replicas
     image    = var.engine_image
-  }
-
-  control = {
-    enabled  = true
-    replicas = var.control_replicas
-    image    = var.control_image
   }
 
   monitoring = {

@@ -180,18 +180,6 @@ variable "engine_image" {
   default     = "inferadb-engine:latest"
 }
 
-variable "control_replicas" {
-  description = "Number of InferaDB Control replicas per region"
-  type        = number
-  default     = 2
-}
-
-variable "control_image" {
-  description = "InferaDB Control container image"
-  type        = string
-  default     = "inferadb-control:latest"
-}
-
 # =============================================================================
 # Tailscale Configuration
 # =============================================================================

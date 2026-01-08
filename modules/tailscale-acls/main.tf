@@ -134,7 +134,7 @@ locals {
     # Node attributes for routing
     nodeAttrs = length(var.regions) > 0 ? [
       for region in var.regions : {
-        target = ["${local.fdb_tag}"]
+        target = [local.fdb_tag]
         attr   = ["region:${region.id}"]
       }
     ] : []

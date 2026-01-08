@@ -167,39 +167,6 @@ variable "engine" {
   }
 }
 
-# InferaDB Control configuration
-variable "control" {
-  description = "InferaDB Control deployment configuration"
-  type = object({
-    enabled           = bool
-    replicas          = optional(number, 2)
-    image             = optional(string, "inferadb-control:latest")
-    image_pull_policy = optional(string, "IfNotPresent")
-    resources = optional(object({
-      requests = object({
-        cpu    = string
-        memory = string
-      })
-      limits = object({
-        cpu    = string
-        memory = string
-      })
-      }), {
-      requests = {
-        cpu    = "250m"
-        memory = "256Mi"
-      }
-      limits = {
-        cpu    = "1000m"
-        memory = "1Gi"
-      }
-    })
-  })
-  default = {
-    enabled = true
-  }
-}
-
 # Monitoring
 variable "monitoring" {
   description = "Monitoring configuration"
@@ -219,8 +186,3 @@ variable "labels" {
   default     = {}
 }
 
-variable "annotations" {
-  description = "Additional annotations to apply to all resources"
-  type        = map(string)
-  default     = {}
-}

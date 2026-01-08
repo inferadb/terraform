@@ -154,12 +154,6 @@ variable "tolerations" {
   default = []
 }
 
-variable "affinity" {
-  description = "Affinity rules for operator pods (JSON-encoded)"
-  type        = any
-  default     = null
-}
-
 # Helm chart settings
 variable "helm_release_name" {
   description = "Name of the Helm release"

@@ -75,9 +75,6 @@ fdb_satellite_logs  = 4
 engine_replicas = 3
 engine_image    = "inferadb-engine:latest"
 
-control_replicas = 2
-control_image    = "inferadb-control:latest"
-
 # =============================================================================
 # Tailscale Configuration (REQUIRED)
 # =============================================================================

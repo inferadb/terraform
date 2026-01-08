@@ -27,9 +27,6 @@ locals {
   # Find the primary region
   primary_region = [for r in var.regions : r if r.is_primary][0]
 
-  # Sort regions by priority
-  sorted_regions = sort([for r in var.regions : r.priority])
-
   # Build multi-region FDB configuration
   fdb_regions = [
     for r in var.regions : {

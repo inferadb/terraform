@@ -2,11 +2,6 @@
 # ==================================
 # Configuration for Tailscale ACLs for InferaDB multi-region networking
 
-variable "tailnet" {
-  description = "Tailscale tailnet name (e.g., 'your-org.ts.net')"
-  type        = string
-}
-
 # Tag definitions
 variable "tags" {
   description = "Tag definitions for InferaDB services"

@@ -51,9 +51,6 @@ fdb_satellite_logs  = 4
 engine_replicas = 3
 engine_image    = "your-registry/inferadb-engine:v1.0.0"
 
-control_replicas = 2
-control_image    = "your-registry/inferadb-control:v1.0.0"
-
 # =============================================================================
 # Tailscale Configuration (REQUIRED)
 # =============================================================================

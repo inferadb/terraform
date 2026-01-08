@@ -304,10 +304,6 @@ module "gke" {
       auto_upgrade    = true
       auto_repair     = true
       node_metadata   = "GKE_METADATA"
-
-      node_labels = {
-        workload = "general"
-      }
     },
     {
       name            = "fdb"
@@ -321,12 +317,17 @@ module "gke" {
       auto_upgrade    = true
       auto_repair     = true
       node_metadata   = "GKE_METADATA"
-
-      node_labels = {
-        workload = "fdb"
-      }
     }
   ]
+
+  node_pools_labels = {
+    general = {
+      workload = "general"
+    }
+    fdb = {
+      workload = "fdb"
+    }
+  }
 
   node_pools_taints = {
     fdb = [
@@ -347,9 +348,6 @@ module "gke" {
 
 module "tailscale_acls" {
   source = "../../modules/tailscale-acls"
-
-  tailnet = var.tailscale_tailnet
-  api_key = var.tailscale_api_key
 
   regions = [
     { id = "aws-${var.aws_region}", name = "AWS Primary (${var.aws_region})" },
@@ -459,12 +457,6 @@ module "inferadb" {
     enabled  = true
     replicas = var.engine_replicas
     image    = var.engine_image
-  }
-
-  control = {
-    enabled  = true
-    replicas = var.control_replicas
-    image    = var.control_image
   }
 
   monitoring = {
