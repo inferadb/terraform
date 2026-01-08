@@ -14,11 +14,11 @@ terraform {
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 2.20"
+      version = "~> 2.35"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.10"
+      version = "~> 2.17"
     }
   }
 }
@@ -57,8 +57,10 @@ locals {
     satellite_logs = var.fearless_dr.satellite_logs
     regions        = local.fdb_regions
     } : {
-    enabled = false
-    regions = []
+    enabled        = false
+    usable_regions = 0
+    satellite_logs = 0
+    regions        = []
   }
 }
 
@@ -163,7 +165,7 @@ module "fdb_cluster" {
 }
 
 # Create Tailscale auth secret in each region (if not using external secrets)
-resource "kubernetes_secret" "tailscale_auth" {
+resource "kubernetes_secret_v1" "tailscale_auth" {
   for_each = var.tailscale.enabled && var.tailscale.auth_key != "" ? { for r in var.regions : r.id => r } : {}
 
   metadata {
@@ -180,7 +182,7 @@ resource "kubernetes_secret" "tailscale_auth" {
 }
 
 # Deploy InferaDB Engine in each region
-resource "kubernetes_deployment" "engine" {
+resource "kubernetes_deployment_v1" "engine" {
   for_each = var.engine.enabled ? { for r in var.regions : r.id => r } : {}
 
   metadata {
@@ -432,7 +434,7 @@ resource "kubernetes_deployment" "engine" {
 }
 
 # Engine Service
-resource "kubernetes_service" "engine" {
+resource "kubernetes_service_v1" "engine" {
   for_each = var.engine.enabled ? { for r in var.regions : r.id => r } : {}
 
   metadata {
@@ -476,7 +478,7 @@ resource "kubernetes_service" "engine" {
 }
 
 # Engine headless service for peer discovery
-resource "kubernetes_service" "engine_headless" {
+resource "kubernetes_service_v1" "engine_headless" {
   for_each = var.engine.enabled ? { for r in var.regions : r.id => r } : {}
 
   metadata {

@@ -11,17 +11,17 @@ terraform {
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 2.20"
+      version = "~> 2.35"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.10"
+      version = "~> 2.17"
     }
   }
 }
 
 # Create namespace if requested
-resource "kubernetes_namespace" "fdb_operator" {
+resource "kubernetes_namespace_v1" "fdb_operator" {
   count = var.create_namespace ? 1 : 0
 
   metadata {
@@ -204,7 +204,7 @@ resource "helm_release" "fdb_operator" {
   # Additional custom values
   values = var.helm_values != "" ? [var.helm_values] : []
 
-  depends_on = [kubernetes_namespace.fdb_operator]
+  depends_on = [kubernetes_namespace_v1.fdb_operator]
 }
 
 # ServiceMonitor for Prometheus Operator (optional)

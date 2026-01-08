@@ -11,7 +11,7 @@ terraform {
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 2.20"
+      version = "~> 2.35"
     }
   }
 }
@@ -101,7 +101,7 @@ locals {
 }
 
 # Create namespace if requested
-resource "kubernetes_namespace" "fdb" {
+resource "kubernetes_namespace_v1" "fdb" {
   count = var.create_namespace ? 1 : 0
 
   metadata {
@@ -313,11 +313,11 @@ resource "kubernetes_manifest" "fdb_cluster" {
     }
   }
 
-  depends_on = [kubernetes_namespace.fdb]
+  depends_on = [kubernetes_namespace_v1.fdb]
 }
 
 # Secret to store cluster file for application consumption
-resource "kubernetes_secret" "cluster_file" {
+resource "kubernetes_secret_v1" "cluster_file" {
   metadata {
     name      = local.cluster_file_secret
     namespace = var.namespace
@@ -338,7 +338,7 @@ resource "kubernetes_secret" "cluster_file" {
 }
 
 # ConfigMap for FDB cluster file (alternative to secret)
-resource "kubernetes_config_map" "cluster_file" {
+resource "kubernetes_config_map_v1" "cluster_file" {
   metadata {
     name      = "${var.cluster_name}-config"
     namespace = var.namespace

@@ -14,23 +14,23 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.0"
+      version = "~> 5.0"
     }
     google = {
       source  = "hashicorp/google"
-      version = ">= 5.0"
+      version = "~> 6.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">= 2.20"
+      version = "~> 2.35"
     }
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.10"
+      version = "~> 2.17"
     }
     tailscale = {
       source  = "tailscale/tailscale"
-      version = ">= 0.13"
+      version = "~> 0.13"
     }
   }
 
