@@ -238,16 +238,17 @@ module "gke_primary" {
 
   node_pools = [
     {
-      name          = "general"
-      machine_type  = var.general_machine_type
-      min_count     = var.general_min_size
-      max_count     = var.general_max_size
-      initial_count = var.general_desired_size
-      disk_size_gb  = 100
-      disk_type     = "pd-ssd"
-      auto_upgrade  = true
-      auto_repair   = true
-      node_metadata = "GKE_METADATA"
+      name            = "general"
+      machine_type    = var.general_machine_type
+      min_count       = var.general_min_size
+      max_count       = var.general_max_size
+      initial_count   = var.general_desired_size
+      disk_size_gb    = 100
+      disk_type       = "pd-ssd"
+      local_ssd_count = 0
+      auto_upgrade    = true
+      auto_repair     = true
+      node_metadata   = "GKE_METADATA"
 
       node_labels = {
         workload = "general"
@@ -308,16 +309,17 @@ module "gke_dr" {
 
   node_pools = [
     {
-      name          = "general"
-      machine_type  = var.general_machine_type
-      min_count     = var.general_min_size
-      max_count     = var.general_max_size
-      initial_count = var.general_desired_size
-      disk_size_gb  = 100
-      disk_type     = "pd-ssd"
-      auto_upgrade  = true
-      auto_repair   = true
-      node_metadata = "GKE_METADATA"
+      name            = "general"
+      machine_type    = var.general_machine_type
+      min_count       = var.general_min_size
+      max_count       = var.general_max_size
+      initial_count   = var.general_desired_size
+      disk_size_gb    = 100
+      disk_type       = "pd-ssd"
+      local_ssd_count = 0
+      auto_upgrade    = true
+      auto_repair     = true
+      node_metadata   = "GKE_METADATA"
 
       node_labels = {
         workload = "general"

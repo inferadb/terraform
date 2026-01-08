@@ -74,12 +74,6 @@ variable "labels" {
   default     = {}
 }
 
-variable "annotations" {
-  description = "Additional annotations to apply to the operator deployment"
-  type        = map(string)
-  default     = {}
-}
-
 # Multi-cluster coordination settings
 variable "multi_cluster_mode" {
   description = "Enable multi-cluster coordination mode for cross-region FDB deployments"
@@ -98,12 +92,6 @@ variable "install_crds" {
   description = "Whether to install FDB CRDs (disable if managing CRDs separately)"
   type        = bool
   default     = true
-}
-
-variable "crd_upgrade_strategy" {
-  description = "CRD upgrade strategy: 'Skip', 'CreateReplace', 'UpdateReplace'"
-  type        = string
-  default     = "CreateReplace"
 }
 
 # Security settings

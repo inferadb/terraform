@@ -61,7 +61,7 @@ provider "kubernetes" {
   alias = "primary"
 
   host                   = module.eks_primary.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks_primary.cluster_ca_certificate)
+  cluster_ca_certificate = base64decode(module.eks_primary.cluster_certificate_authority_data)
 
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
@@ -74,7 +74,7 @@ provider "kubernetes" {
   alias = "dr"
 
   host                   = module.eks_dr.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks_dr.cluster_ca_certificate)
+  cluster_ca_certificate = base64decode(module.eks_dr.cluster_certificate_authority_data)
 
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
@@ -89,7 +89,7 @@ provider "helm" {
 
   kubernetes {
     host                   = module.eks_primary.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks_primary.cluster_ca_certificate)
+    cluster_ca_certificate = base64decode(module.eks_primary.cluster_certificate_authority_data)
 
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
@@ -104,7 +104,7 @@ provider "helm" {
 
   kubernetes {
     host                   = module.eks_dr.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks_dr.cluster_ca_certificate)
+    cluster_ca_certificate = base64decode(module.eks_dr.cluster_certificate_authority_data)
 
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"

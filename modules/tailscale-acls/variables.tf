@@ -7,12 +7,6 @@ variable "tailnet" {
   type        = string
 }
 
-variable "api_key" {
-  description = "Tailscale API key for managing ACLs"
-  type        = string
-  sensitive   = true
-}
-
 # Tag definitions
 variable "tags" {
   description = "Tag definitions for InferaDB services"
@@ -85,23 +79,6 @@ variable "ssh_allowed_users" {
   default     = []
 }
 
-# Exit node configuration
-variable "exit_nodes" {
-  description = "Exit node configuration for routing"
-  type = list(object({
-    region_id = string
-    node_name = string
-  }))
-  default = []
-}
-
-# Network restrictions
-variable "allowed_ips" {
-  description = "Additional IP ranges to allow (e.g., for on-prem integration)"
-  type        = list(string)
-  default     = []
-}
-
 # Autogroups
 variable "autogroups" {
   description = "Autogroup configuration"
@@ -125,14 +102,3 @@ variable "dns" {
   default = {}
 }
 
-# Output format
-variable "output_format" {
-  description = "Output format for ACL policy: 'json' or 'hujson'"
-  type        = string
-  default     = "json"
-
-  validation {
-    condition     = contains(["json", "hujson"], var.output_format)
-    error_message = "output_format must be 'json' or 'hujson'"
-  }
-}

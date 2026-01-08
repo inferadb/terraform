@@ -56,7 +56,7 @@ provider "kubernetes" {
   alias = "aws"
 
   host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_ca_certificate)
+  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
 
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
@@ -70,7 +70,7 @@ provider "helm" {
 
   kubernetes {
     host                   = module.eks.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks.cluster_ca_certificate)
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
 
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
@@ -293,16 +293,17 @@ module "gke" {
 
   node_pools = [
     {
-      name          = "general"
-      machine_type  = var.gcp_general_machine_type
-      min_count     = var.general_min_size
-      max_count     = var.general_max_size
-      initial_count = var.general_desired_size
-      disk_size_gb  = 100
-      disk_type     = "pd-ssd"
-      auto_upgrade  = true
-      auto_repair   = true
-      node_metadata = "GKE_METADATA"
+      name            = "general"
+      machine_type    = var.gcp_general_machine_type
+      min_count       = var.general_min_size
+      max_count       = var.general_max_size
+      initial_count   = var.general_desired_size
+      disk_size_gb    = 100
+      disk_type       = "pd-ssd"
+      local_ssd_count = 0
+      auto_upgrade    = true
+      auto_repair     = true
+      node_metadata   = "GKE_METADATA"
 
       node_labels = {
         workload = "general"

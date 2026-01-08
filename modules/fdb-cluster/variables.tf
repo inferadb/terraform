@@ -26,18 +26,6 @@ variable "fdb_version" {
   default     = "7.3.43"
 }
 
-variable "fdb_image" {
-  description = "FDB container image (leave empty for default)"
-  type        = string
-  default     = ""
-}
-
-variable "sidecar_image" {
-  description = "FDB sidecar container image (leave empty for default)"
-  type        = string
-  default     = ""
-}
-
 # Cluster size and redundancy
 variable "process_counts" {
   description = "Number of processes per role"
@@ -142,12 +130,6 @@ variable "priority" {
   default     = 1
 }
 
-variable "satellite_logs" {
-  description = "Number of satellite logs for Fearless DR"
-  type        = number
-  default     = 4
-}
-
 # Multi-region topology (for Fearless DR)
 variable "multi_region_config" {
   description = "Multi-region configuration for Fearless DR"
@@ -170,12 +152,6 @@ variable "multi_region_config" {
 }
 
 # Networking
-variable "service_type" {
-  description = "Kubernetes service type: ClusterIP, LoadBalancer, NodePort"
-  type        = string
-  default     = "ClusterIP"
-}
-
 variable "public_ip_source" {
   description = "Source for public IP: pod, service"
   type        = string
@@ -225,12 +201,6 @@ variable "tls_enabled" {
   description = "Enable TLS for FDB communication"
   type        = bool
   default     = false
-}
-
-variable "tls_secret_name" {
-  description = "Name of the TLS secret containing cert and key"
-  type        = string
-  default     = ""
 }
 
 # Pod configuration
