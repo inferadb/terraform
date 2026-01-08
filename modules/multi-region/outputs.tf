@@ -57,7 +57,7 @@ output "fdb_clusters" {
 output "engine_endpoints" {
   description = "InferaDB Engine service endpoints per region"
   value = var.engine.enabled ? {
-    for region_id, svc in kubernetes_service.engine : region_id => {
+    for region_id, svc in kubernetes_service_v1.engine : region_id => {
       service_name = svc.metadata[0].name
       namespace    = svc.metadata[0].namespace
       http_port    = 8080
@@ -71,7 +71,7 @@ output "engine_endpoints" {
 output "engine_headless_endpoints" {
   description = "InferaDB Engine headless service endpoints per region"
   value = var.engine.enabled ? {
-    for region_id, svc in kubernetes_service.engine_headless : region_id => {
+    for region_id, svc in kubernetes_service_v1.engine_headless : region_id => {
       service_name = svc.metadata[0].name
       namespace    = svc.metadata[0].namespace
       dns_name     = "${svc.metadata[0].name}.${svc.metadata[0].namespace}.svc.cluster.local"

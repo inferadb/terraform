@@ -24,7 +24,7 @@ output "cluster_file_secret_name" {
 
 output "cluster_file_configmap_name" {
   description = "Name of the ConfigMap containing the FDB cluster file"
-  value       = kubernetes_config_map.cluster_file.metadata[0].name
+  value       = kubernetes_config_map_v1.cluster_file.metadata[0].name
 }
 
 output "connection_string_path" {
@@ -89,7 +89,7 @@ output "volume_mount_spec" {
     volume = {
       name = "fdb-cluster-file"
       configMap = {
-        name = kubernetes_config_map.cluster_file.metadata[0].name
+        name = kubernetes_config_map_v1.cluster_file.metadata[0].name
         items = [
           {
             key  = "fdb.cluster"

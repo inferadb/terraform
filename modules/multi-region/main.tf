@@ -145,7 +145,10 @@ module "fdb_cluster" {
     image    = var.tailscale.image
     hostname = "fdb-${each.value.id}"
     } : {
-    enabled = false
+    enabled    = false
+    secret_ref = null
+    image      = null
+    hostname   = null
   }
 
   # Node selection
