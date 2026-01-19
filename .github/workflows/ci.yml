@@ -44,8 +44,6 @@ jobs:
       fail-fast: false
       matrix:
         module:
-          - modules/fdb-cluster
-          - modules/fdb-operator
           - modules/multi-region
           - modules/tailscale-acls
     steps:

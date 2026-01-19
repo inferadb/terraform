@@ -6,7 +6,6 @@
 variable "tags" {
   description = "Tag definitions for InferaDB services"
   type = object({
-    fdb_tag     = optional(string, "tag:fdb")
     engine_tag  = optional(string, "tag:inferadb-engine")
     control_tag = optional(string, "tag:inferadb-control")
   })
@@ -17,7 +16,6 @@ variable "tags" {
 variable "tag_owners" {
   description = "Tag owners configuration"
   type = object({
-    fdb_owners     = optional(list(string), [])
     engine_owners  = optional(list(string), [])
     control_owners = optional(list(string), [])
   })
@@ -28,8 +26,6 @@ variable "tag_owners" {
 variable "ports" {
   description = "Port configuration for InferaDB services"
   type = object({
-    fdb_port          = optional(number, 4500)
-    fdb_tls_port      = optional(number, 4501)
     engine_http_port  = optional(number, 8080)
     engine_grpc_port  = optional(number, 8081)
     engine_mesh_port  = optional(number, 8082)
@@ -96,4 +92,3 @@ variable "dns" {
   })
   default = {}
 }
-

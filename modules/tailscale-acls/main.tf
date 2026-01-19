@@ -3,8 +3,8 @@
 # Manages Tailscale ACLs for InferaDB multi-region networking
 #
 # This module creates ACL policies that:
-# - Allow FDB nodes to communicate across regions
 # - Allow Engine pods to discover and communicate with each other
+# - Allow Control pods to communicate with Engine pods
 # - Restrict access to only authorized services
 
 terraform {
@@ -20,8 +20,6 @@ terraform {
 
 locals {
   # Default ports
-  fdb_port          = coalesce(var.ports.fdb_port, 4500)
-  fdb_tls_port      = coalesce(var.ports.fdb_tls_port, 4501)
   engine_http_port  = coalesce(var.ports.engine_http_port, 8080)
   engine_grpc_port  = coalesce(var.ports.engine_grpc_port, 8081)
   engine_mesh_port  = coalesce(var.ports.engine_mesh_port, 8082)
@@ -29,7 +27,6 @@ locals {
   control_mesh_port = coalesce(var.ports.control_mesh_port, 9092)
 
   # Tags
-  fdb_tag     = coalesce(var.tags.fdb_tag, "tag:fdb")
   engine_tag  = coalesce(var.tags.engine_tag, "tag:inferadb-engine")
   control_tag = coalesce(var.tags.control_tag, "tag:inferadb-control")
 
@@ -38,20 +35,6 @@ locals {
 
   # Build ACL rules
   base_acls = [
-    # FDB nodes can communicate with each other (for Fearless DR)
-    {
-      action = "accept"
-      src    = [local.fdb_tag]
-      dst    = ["${local.fdb_tag}:${local.fdb_port}", "${local.fdb_tag}:${local.fdb_tls_port}"]
-    },
-
-    # Engine pods can communicate with FDB nodes
-    {
-      action = "accept"
-      src    = [local.engine_tag]
-      dst    = ["${local.fdb_tag}:${local.fdb_port}", "${local.fdb_tag}:${local.fdb_tls_port}"]
-    },
-
     # Engine pods can communicate with each other (for replication/mesh)
     {
       action = "accept"
@@ -84,7 +67,6 @@ locals {
       action = "accept"
       src    = [local.admin_group]
       dst = [
-        "${local.fdb_tag}:*",
         "${local.engine_tag}:*",
         "${local.control_tag}:*"
       ]
@@ -96,7 +78,7 @@ locals {
     {
       action = "accept"
       src    = var.ssh_allowed_users
-      dst    = ["${local.fdb_tag}:22", "${local.engine_tag}:22", "${local.control_tag}:22"]
+      dst    = ["${local.engine_tag}:22", "${local.control_tag}:22"]
     }
   ] : []
 
@@ -108,11 +90,6 @@ locals {
 
   # Build tag owners
   tag_owners = merge(
-    length(var.tag_owners.fdb_owners) > 0 ? {
-      (local.fdb_tag) = var.tag_owners.fdb_owners
-      } : {
-      (local.fdb_tag) = [local.admin_group]
-    },
     length(var.tag_owners.engine_owners) > 0 ? {
       (local.engine_tag) = var.tag_owners.engine_owners
       } : {
@@ -131,14 +108,6 @@ locals {
 
     tagOwners = local.tag_owners
 
-    # Node attributes for routing
-    nodeAttrs = length(var.regions) > 0 ? [
-      for region in var.regions : {
-        target = [local.fdb_tag]
-        attr   = ["region:${region.id}"]
-      }
-    ] : []
-
     # Auto-approvers for tagged devices
     autoApprovers = {
       routes = {
@@ -153,7 +122,7 @@ locals {
       {
         action = "accept"
         src    = var.ssh_allowed_users
-        dst    = [local.fdb_tag, local.engine_tag, local.control_tag]
+        dst    = [local.engine_tag, local.control_tag]
         users  = ["root", "nonroot"]
       }
     ] : []
